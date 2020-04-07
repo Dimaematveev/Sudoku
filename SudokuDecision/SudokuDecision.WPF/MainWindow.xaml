@@ -5,8 +5,220 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SudokuDecision.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="300" Width="300">
+    <Window.Resources>
+        <Style TargetType="DataGrid" x:Key="ColumnAllWidht">
+            <Setter Property="ColumnWidth" Value="*"/>
+        </Style>
+    </Window.Resources>
+    <Grid x:Name="aaa">
         
+        <!--<Grid x:Name="Table1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="Table2_00" Grid.Row="0" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="TextBox_00_00" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_00_01" Grid.Row="0" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_00_02" Grid.Row="0" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_00_10" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_00_11" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_00_12" Grid.Row="1" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_00_20" Grid.Row="2" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_00_21" Grid.Row="2" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_00_22" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+            <Grid x:Name="Table2_01" Grid.Row="0" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="TextBox_01_00" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_01_01" Grid.Row="0" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_01_02" Grid.Row="0" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_01_10" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_01_11" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_01_12" Grid.Row="1" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_01_20" Grid.Row="2" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_01_21" Grid.Row="2" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_01_22" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+            <Grid x:Name="Table2_02" Grid.Row="0" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="TextBox_02_00" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_02_01" Grid.Row="0" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_02_02" Grid.Row="0" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_02_10" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_02_11" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_02_12" Grid.Row="1" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_02_20" Grid.Row="2" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_02_21" Grid.Row="2" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_02_22" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+            <Grid x:Name="Table2_10" Grid.Row="1" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="TextBox_10_00" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_10_01" Grid.Row="0" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_10_02" Grid.Row="0" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_10_10" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_10_11" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_10_12" Grid.Row="1" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_10_20" Grid.Row="2" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_10_21" Grid.Row="2" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_10_22" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+            <Grid x:Name="Table2_11" Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="TextBox_11_00" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_11_01" Grid.Row="0" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_11_02" Grid.Row="0" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_11_10" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_11_11" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_11_12" Grid.Row="1" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_11_20" Grid.Row="2" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_11_21" Grid.Row="2" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_11_22" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+            <Grid x:Name="Table2_12" Grid.Row="1" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="TextBox_12_00" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_12_01" Grid.Row="0" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_12_02" Grid.Row="0" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_12_10" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_12_11" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_12_12" Grid.Row="1" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_12_20" Grid.Row="2" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_12_21" Grid.Row="2" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_12_22" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+            <Grid x:Name="Table2_20" Grid.Row="2" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="TextBox_20_00" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_20_01" Grid.Row="0" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_20_02" Grid.Row="0" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_20_10" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_20_11" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_20_12" Grid.Row="1" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_20_20" Grid.Row="2" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_20_21" Grid.Row="2" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_20_22" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+            <Grid x:Name="Table2_21" Grid.Row="2" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="TextBox_21_00" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_21_01" Grid.Row="0" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_21_02" Grid.Row="0" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_21_10" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_21_11" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_21_12" Grid.Row="1" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_21_20" Grid.Row="2" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_21_21" Grid.Row="2" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_21_22" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+            <Grid x:Name="Table2_22" Grid.Row="2" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="TextBox_22_00" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_22_01" Grid.Row="0" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_22_02" Grid.Row="0" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_22_10" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_22_11" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_22_12" Grid.Row="1" Grid.Column="2"/>
+                <TextBox x:Name="TextBox_22_20" Grid.Row="2" Grid.Column="0"/>
+                <TextBox x:Name="TextBox_22_21" Grid.Row="2" Grid.Column="1"/>
+                <TextBox x:Name="TextBox_22_22" Grid.Row="2" Grid.Column="2"/>
+            </Grid>
+
+
+        </Grid> -->
+
+        <DataGrid x:Name="Table2" CanUserResizeColumns="False" Style="{StaticResource ResourceKey=ColumnAllWidht}">
+        </DataGrid>
     </Grid>
 </Window>
