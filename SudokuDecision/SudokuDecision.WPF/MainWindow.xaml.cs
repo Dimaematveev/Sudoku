@@ -36,58 +36,14 @@ namespace SudokuDecision.WPF
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Zapoln();
-
-            ReturnAllRows();
-            ReturnAllColumns();
-            ReturnAllTable();
-
+            FillTable();
+            tableSudoku = new TableSudoku(table);
         }
 
 
-        private void ReturnAllRows()
-        {
-            for (int i = 0; i < table.Columns.Count; i++)
-            {
-                var temp = new ListSudoku(table);
-                for (int j = 0; j < table.Rows.Count; j++)
-                {
-                    temp.Add(j,i);
-                }
-                tableSudoku.Columns.Add(temp);
-            }
-        }
+        
 
-        private void ReturnAllColumns()
-        {
-            for (int i = 0; i < table.Rows.Count; i++)
-            {
-                var temp = new ListSudoku(table);
-                for (int j = 0; j < table.Columns.Count; j++)
-                {
-                    temp.Add(i,j);
-                   
-                }
-                tableSudoku.Rows.Add(temp);
-            }
-        }
-
-        private void ReturnAllTable()
-        {
-            for (int i = 0; i < table.Rows.Count; i++)
-            {
-                var temp = new ListSudoku(table);
-                for (int j = 0; j < table.Columns.Count; j++)
-                {
-                    int col = (i / 3) * 3 + j / 3;
-                    int row = (i % 3) * 3 + j % 3;
-                    temp.Add(col,row);
-                }
-                tableSudoku.Tables.Add(temp);
-            }
-        }
-
-        private void Zapoln()
+        private void FillTable()
         {
             for (int i = 0; i < 9; i++)
             {
@@ -113,8 +69,11 @@ namespace SudokuDecision.WPF
             Table2.ItemsSource = table.DefaultView;
             Table2.CanUserAddRows = false;
             Table2.CanUserResizeColumns = false;
+            Table2.CanUserDeleteRows = false;
+            Table2.CanUserResizeRows = false;
+            Table2.CanUserReorderColumns = false;
+            Table2.CanUserSortColumns = false;
 
-            tableSudoku = new TableSudoku(table);
 
         }
 

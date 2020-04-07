@@ -18,9 +18,47 @@ namespace SudokuDecision.BL
         public TableSudoku(DataTable dataTable)
         {
             DataTable = dataTable;
-            Rows = new List<ListSudoku>();
+            FillAll();
+        }
+
+
+        private void FillAll()
+        {
             Columns = new List<ListSudoku>();
+            for (int i = 0; i < DataTable.Columns.Count; i++)
+            {
+                var temp = new ListSudoku(DataTable);
+                for (int j = 0; j < DataTable.Rows.Count; j++)
+                {
+                    temp.Add(j, i);
+                }
+                Columns.Add(temp);
+            }
+
+            Rows = new List<ListSudoku>();
+            for (int i = 0; i < DataTable.Rows.Count; i++)
+            {
+                var temp = new ListSudoku(DataTable);
+                for (int j = 0; j < DataTable.Columns.Count; j++)
+                {
+                    temp.Add(i, j);
+
+                }
+                Rows.Add(temp);
+            }
+
             Tables = new List<ListSudoku>();
+            for (int i = 0; i < DataTable.Rows.Count; i++)
+            {
+                var temp = new ListSudoku(DataTable);
+                for (int j = 0; j < DataTable.Columns.Count; j++)
+                {
+                    int col = (i / 3) * 3 + j / 3;
+                    int row = (i % 3) * 3 + j % 3;
+                    temp.Add(col, row);
+                }
+                Tables.Add(temp);
+            }
         }
 
         public override string ToString()
