@@ -79,7 +79,7 @@ namespace SudokuDecision.BL
     }
     public class ItemSudoku
     {
-        public object Item { get => DataTable.Rows[Row][Col]; }
+        public object Item { get => DataTable.Rows[Row][Col]; set => DataTable.Rows[Row][Col] = value; }
         public int Row { get; private set; }
         public int Col { get; private set; }
         private DataTable DataTable;
