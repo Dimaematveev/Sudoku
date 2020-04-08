@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -15,6 +14,8 @@ namespace SudokuDecision.BL
         public List<ListSudoku> Columns;
         public List<ListSudoku> Tables;
 
+        
+
         public TableSudoku(DataTable dataTable)
         {
             DataTable = dataTable;
@@ -22,7 +23,15 @@ namespace SudokuDecision.BL
         }
 
 
+
+
         private void FillAll()
+        {
+            FillColumns();
+            FillRows();
+            FillTables();
+        }
+        private void FillColumns()
         {
             Columns = new List<ListSudoku>();
             for (int i = 0; i < DataTable.Columns.Count; i++)
@@ -34,7 +43,9 @@ namespace SudokuDecision.BL
                 }
                 Columns.Add(temp);
             }
-
+        }
+        private void FillRows()
+        {
             Rows = new List<ListSudoku>();
             for (int i = 0; i < DataTable.Rows.Count; i++)
             {
@@ -46,7 +57,9 @@ namespace SudokuDecision.BL
                 }
                 Rows.Add(temp);
             }
-
+        }
+        private void FillTables()
+        {
             Tables = new List<ListSudoku>();
             for (int i = 0; i < DataTable.Rows.Count; i++)
             {
@@ -81,57 +94,6 @@ namespace SudokuDecision.BL
             }
             return ret;
 
-        }
-    }
-
-    public class ListSudoku:IEnumerable
-    {
-       
-        public List<ItemSudoku> ItemSudokus { get; set; }
-        private DataTable DataTable;
-        public ListSudoku(DataTable dataTable)
-        {
-            ItemSudokus = new List<ItemSudoku>();
-            DataTable = dataTable;
-        }
-
-        public void Add(int row, int col)
-        {
-            ItemSudokus.Add(new ItemSudoku(row, col, DataTable));
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return ItemSudokus.GetEnumerator();
-        }
-        public override string ToString()
-        {
-            string ret = "";
-            foreach (var item in this)
-            {
-                ret += $"[{item}], ";
-            }
-
-            return ret;
-        }
-    }
-    public class ItemSudoku
-    {
-        public object Item { get => DataTable.Rows[Row][Col]; set => DataTable.Rows[Row][Col] = value; }
-        public int Row { get; private set; }
-        public int Col { get; private set; }
-        private DataTable DataTable;
-
-        public ItemSudoku(int row, int col,DataTable dataTable)
-        {
-            Row = row;
-            Col = col;
-            DataTable = dataTable;
-        }
-
-        public override string ToString()
-        {
-            return $"c:{Col}_r:{Row}-i:{Item}";
         }
     }
 }
