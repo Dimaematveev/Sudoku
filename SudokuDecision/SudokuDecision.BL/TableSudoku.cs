@@ -14,16 +14,36 @@ namespace SudokuDecision.BL
         public List<ListSudoku> Columns;
         public List<ListSudoku> Tables;
 
-        
+        public List<ListItemsSudoku> AllCrossing;
 
         public TableSudoku(DataTable dataTable)
         {
             DataTable = dataTable;
+           
             FillAll();
+            FillAllCrossing();
         }
 
+        private void FillAllCrossing()
+        {
+            AllCrossing = new List<ListItemsSudoku>();
+            for (int i = 0; i < DataTable.Rows.Count; i++)
+            {
+                for (int j = 0; j < DataTable.Columns.Count; j++)
+                {
+                    AllCrossing.Add( new ListItemsSudoku(new ItemSudoku(i, j,DataTable)));
+                }
+            }
 
+            foreach (var crossing in AllCrossing)
+            {
+                crossing.AddSub(Rows);
+                crossing.AddSub(Columns);
+                crossing.AddSub(Tables);
 
+            }
+
+        }
 
         private void FillAll()
         {

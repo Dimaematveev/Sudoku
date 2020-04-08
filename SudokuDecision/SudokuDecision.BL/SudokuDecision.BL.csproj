@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ItemSudoku.cs" />
+    <Compile Include="ListItemsSudoku.cs" />
     <Compile Include="ListSudoku.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableSudoku.cs" />
