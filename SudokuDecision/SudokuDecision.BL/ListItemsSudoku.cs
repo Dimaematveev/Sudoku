@@ -14,7 +14,7 @@ namespace SudokuDecision.BL
 
         public List<object> NotCanBeUsed
         {
-            get => SubItems.GroupBy(x => x.Item).Select(x => x.First().Item).ToList();
+            get => SubItems.GroupBy(x => x.Item).Select(x => x.First().Item).OrderBy(x=>x).ToList();
             
         }
         public ListItemsSudoku(ItemSudoku mainItem)
@@ -38,6 +38,15 @@ namespace SudokuDecision.BL
             }
 
 
+        }
+
+        public override string ToString()
+        {
+            if (MainItem.Item.Equals(""))
+            {
+                return NotCanBeUsed.Count.ToString();
+            }
+            return "";
         }
 
     }

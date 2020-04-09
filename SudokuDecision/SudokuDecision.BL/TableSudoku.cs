@@ -42,6 +42,7 @@ namespace SudokuDecision.BL
                 crossing.AddSub(Tables);
 
             }
+            AllCrossing = AllCrossing.OrderByDescending(x => x.ToString()).ToList();
 
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 using SudokuDecision.BL;
 
 namespace SudokuDecision.WPF
@@ -65,7 +67,7 @@ namespace SudokuDecision.WPF
             }
            
 
-            Table2.Items.Clear();
+
             Table2.ItemsSource = table.DefaultView;
             Table2.CanUserAddRows = false;
             Table2.CanUserResizeColumns = false;
@@ -77,11 +79,49 @@ namespace SudokuDecision.WPF
 
         }
 
+        private void FillFile(string nameFile)
+        {
+            table.Clear();
+            string line;
+            StreamReader file = new StreamReader(nameFile);
+            while ((line = file.ReadLine()) != null)
+            {
+                var temp = line.Split(';');
+
+                DataRow dataRow = table.NewRow();
+
+                for (int j = 0; j < table.Columns.Count; j++)
+                {
+
+                    dataRow[j] = temp[j];
+                }
+
+                table.Rows.Add(dataRow);
+            }
+
+            
+            Table2.ItemsSource = table.DefaultView;
+            Table2.CanUserAddRows = false;
+            Table2.CanUserResizeColumns = false;
+            Table2.CanUserDeleteRows = false;
+            Table2.CanUserResizeRows = false;
+            Table2.CanUserReorderColumns = false;
+            Table2.CanUserSortColumns = false;
+        }
+
         private void Zap_Click(object sender, RoutedEventArgs e)
         {
             tableSudoku = new TableSudoku(table);
         }
 
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "All files(*.*)|*.*";
+            openFileDialog1.ShowDialog();
 
+
+            FillFile(openFileDialog1.FileName);
+        }
     }
 }

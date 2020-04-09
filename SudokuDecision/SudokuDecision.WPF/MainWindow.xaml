@@ -16,5 +16,6 @@
         <DataGrid x:Name="Table2" CanUserResizeColumns="False" Style="{StaticResource ResourceKey=ColumnAllWidht}" Margin="10,10,9.6,103.4"/>
 
         <Button x:Name="Zap" Content="Заполнить" Margin="0,0,9.6,68.4" HorizontalAlignment="Right" Width="81" Height="30" VerticalAlignment="Bottom" Click="Zap_Click"/>
+        <Button x:Name="OpenFile" Content="Открыть файл" Margin="10,0,202.6,68.4" Height="30" VerticalAlignment="Bottom" Click="OpenFile_Click" />
     </Grid>
 </Window>
