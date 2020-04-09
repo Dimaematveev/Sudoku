@@ -12,6 +12,11 @@ namespace SudokuDecision.BL
         ItemSudoku MainItem { get; set; }
         List<ItemSudoku> SubItems { get; set; }
 
+        public List<object> NotCanBeUsed
+        {
+            get => SubItems.GroupBy(x => x.Item).Select(x => x.First().Item).ToList();
+            
+        }
         public ListItemsSudoku(ItemSudoku mainItem)
         {
             MainItem = mainItem;

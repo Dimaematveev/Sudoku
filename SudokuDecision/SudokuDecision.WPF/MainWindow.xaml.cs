@@ -77,57 +77,11 @@ namespace SudokuDecision.WPF
 
         }
 
+        private void Zap_Click(object sender, RoutedEventArgs e)
+        {
+            tableSudoku = new TableSudoku(table);
+        }
 
 
-        ///// <summary>
-        ///// заполнение случайными числами
-        ///// </summary>
-        //private void Zapoln()
-        //{
-        //    foreach (var item1 in Table1.Children)
-        //    {
-        //        if (item1 is Grid)
-        //        {
-
-        //            Grid itemDataGrid = (Grid)item1;
-
-        //            foreach (var item2 in itemDataGrid.Children)
-        //            {
-        //                if (item2 is TextBox)
-        //                {
-        //                    TextBox itemTextBox = (TextBox)item2;
-        //                    itemTextBox.Text = itemTextBox.Name;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-        ///// <summary>
-        ///// Пробую вывести все столбцы
-        ///// </summary>
-        //private void ReturnAllStold()
-        //{
-        //    string str = "";
-
-        //    foreach (var item1 in Table1.ColumnDefinitions)
-        //    {
-        //        var d = item1;
-        //        var z = d.BindingGroup;
-        //        //if (item1 is Grid)
-        //        //{
-        //        //    Grid itemDataGrid = (Grid)item1;
-        //        //    foreach (var item2 in itemDataGrid.Children)
-        //        //    {
-        //        //        if (item2 is TextBox)
-        //        //        {
-        //        //            TextBox itemTextBox = (TextBox)item2;
-        //        //            itemTextBox.Text = itemTextBox.Name;
-        //        //        }
-        //        //    }
-        //        //}
-        //    }
-
-        //    MessageBox.Show(str);
-        //}
     }
 }
