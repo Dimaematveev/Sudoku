@@ -53,7 +53,7 @@ namespace SudokuDecision.BL
                 {
                     item.MainItem.Item = item.CanBeUsed[0];
                 }
-
+                 
                 FillAll();
                 FillAllCrossing();
             }
