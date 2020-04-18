@@ -42,7 +42,22 @@ namespace SudokuDecision.BL
                 crossing.AddSub(Tables);
 
             }
-            AllCrossing = AllCrossing.OrderByDescending(x => x.ToString()).ToList();
+            AllCrossing = AllCrossing.OrderBy(x => x.CanBeUsed.Count).ToList();
+
+            List<ListItemsSudoku> crossing_1 = new List<ListItemsSudoku>();
+            crossing_1 = AllCrossing.Where(x => x.CanBeUsed.Count == 1 && x.MainItem.Item == "").GroupBy(x => x.MainItem).Select(x => x.First()).ToList();
+            if (crossing_1.Count > 0)
+            {
+                
+                foreach (var item in crossing_1)
+                {
+                    item.MainItem.Item = item.CanBeUsed[0];
+                }
+
+                FillAll();
+                FillAllCrossing();
+            }
+            
 
         }
 

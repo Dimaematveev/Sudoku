@@ -39,7 +39,8 @@ namespace SudokuDecision.WPF
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             FillTable();
-            tableSudoku = new TableSudoku(table);
+            FillFile(@"D:\Дмитрий\Documents\Настраиваемые шаблоны Office\sud1.csv");
+            
         }
 
 
@@ -112,7 +113,15 @@ namespace SudokuDecision.WPF
         private void Zap_Click(object sender, RoutedEventArgs e)
         {
             tableSudoku = new TableSudoku(table);
+            //Table2.ToolTip = "defef";\
+            Style CellStyle_ToolTip = new Style();
+            var CellSetter = new Setter(DataGridCell.ToolTipProperty, new Binding() { RelativeSource = new RelativeSource(RelativeSourceMode.Self), Path = new PropertyPath("Content.Text") });
+
+            CellStyle_ToolTip.Setters.Add(CellSetter);
+
+            Table2.CellStyle = CellStyle_ToolTip;
         }
+
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
