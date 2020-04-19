@@ -28,6 +28,49 @@ namespace SudokuDecision
             
 
             Loaded += MainWindow_Loaded;
+            DataGridSudoku.CellEditEnding += DataGridSudoku_CellEditEnding1;
+        }
+
+        private void DataGridSudoku_CellEditEnding1(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            TextBox cell = (TextBox)e.EditingElement;
+            if (cell.Text.Length > 1)
+            {
+                throw new ArgumentException("Не символ");
+            }
+            else
+            {
+                char k = cell.Text[0];
+                dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex] = new ItemCellSudoku() { Item = k };
+                //e.EditingElement= new ItemCellSudoku() { Item = k };
+                //((DataGrid)sender).SelectedItem= new ItemCellSudoku() { Item = k };
+            }
+           
+            
+        }
+
+        private void DataGridSudoku_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+            if (e.EditingElement is TextBox)
+            {
+                TextBox cell = (TextBox)e.EditingElement;
+                if (cell.Text.Length > 1) 
+                {
+                    throw new ArgumentException("Не символ");
+                }
+                else
+                {
+                    char k = cell.Text[0];
+                    //e.EditingElement= new ItemCellSudoku() { Item = k };
+                    //((DataGrid)sender).SelectedItem= new ItemCellSudoku() { Item = k };
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Не текстбокс");
+            }
+            
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -43,10 +86,8 @@ namespace SudokuDecision
                 for (int j = 0; j < newRow.ItemArray.Length; j++)
                 {
                     
-                    newRow[j] = new ItemSudoku() { Item = ' ' }; 
+                    newRow[j] = new ItemCellSudoku() { Item = ' ' }; 
                     //newRow[j] = $"{i}_{j}";
-                   
-
                 }
                 dataTableSudoku.Rows.Add(newRow);
             }
@@ -57,8 +98,16 @@ namespace SudokuDecision
             DataGridSudoku.CanUserResizeRows = false;
             DataGridSudoku.CanUserReorderColumns = false;
             DataGridSudoku.CanUserSortColumns = false;
+
+            List<ItemCellSudoku> ListUnion = new List<ItemCellSudoku>();
         }
 
+        /* TODO: что надо примерно сделать
+         * Первое создать список всех возможных объединений где не должны совпадать элементы
+         * Второе после проверить на одинаковое кол-во чисел
+         *
+         *
+         */
         //private void FillFile(string nameFile)
         //{
         //    table.Clear();

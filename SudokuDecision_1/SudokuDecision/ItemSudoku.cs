@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,12 +9,16 @@ namespace SudokuDecision
 {
     public class ItemSudoku
     {
-        public char Item;
-        public List<char> Can;
+        private DataTable DataTableSudoku;
+        public int Row;
+        public int Column;
+        public ItemCellSudoku ItemCellSudoku { get => (ItemCellSudoku)DataTableSudoku.Rows[Row][Column]; }
 
-        public override string ToString()
+        public ItemSudoku(DataTable dataTableSudoku, int row, int column)
         {
-            return Item.ToString();
+            DataTableSudoku = dataTableSudoku;
+            Row = row;
+            Column = column;
         }
     }
 }
