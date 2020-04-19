@@ -33,32 +33,24 @@ namespace SudokuDecision
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             int numSudoku = 9;
-            dataTableSudoku.Columns.Add($"N");
-            for (int i = 1; i <= numSudoku; i++)
+            for (int i = 0; i < numSudoku; i++)
             {
-                dataTableSudoku.Columns.Add($"{i}", typeof(char));
+                dataTableSudoku.Columns.Add($"{i}", typeof(object));
             }
-            for (int i = 1; i <= numSudoku; i++)
+            for (int i = 1; i < numSudoku; i++)
             {
                 var newRow = dataTableSudoku.NewRow();
                 for (int j = 0; j < newRow.ItemArray.Length; j++)
                 {
-                    if (j==0)
-                    {
-                        newRow[j] = i.ToString()[0];
-                    }
                     
-                    else
-                    {
-                        newRow[j] = ' ';
-                        //newRow[j] = $"{i}_{j}";
-                    }
+                    newRow[j] = new ItemSudoku() { Item = ' ' }; 
+                    //newRow[j] = $"{i}_{j}";
+                   
 
                 }
                 dataTableSudoku.Rows.Add(newRow);
             }
             DataGridSudoku.ItemsSource = dataTableSudoku.DefaultView;
-            DataGridSudoku.Columns[0].IsReadOnly = true;
             DataGridSudoku.CanUserAddRows = false;
             DataGridSudoku.CanUserResizeColumns = false;
             DataGridSudoku.CanUserDeleteRows = false;
