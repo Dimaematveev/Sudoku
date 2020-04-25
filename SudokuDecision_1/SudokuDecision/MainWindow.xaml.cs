@@ -53,8 +53,13 @@ namespace SudokuDecision
                 var newRow = dataTableSudoku.NewRow();
                 for (int j = 0; j < newRow.ItemArray.Length; j++)
                 {
-
-                    newRow[j] = new ItemCellSudoku() { Item = ' ' };
+                    //TODO: это объединить
+                    List<char> can = new List<char>();
+                    for (char ch = '1'; ch <= '9'; ch++)
+                    {
+                        can.Add(ch);
+                    }
+                    newRow[j] = new ItemCellSudoku() { Item = ' ', Can=can };
                     //newRow[j] = $"{i}_{j}";
                 }
                 dataTableSudoku.Rows.Add(newRow);
@@ -86,7 +91,13 @@ namespace SudokuDecision
                 {
                     k = cell.Text[0];
                 }
-                dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex] = new ItemCellSudoku() { Item = k };
+                //TODO: это объединить
+                List<char> can = new List<char>();
+                for (char ch = '1'; ch <= '9'; ch++)
+                {
+                    can.Add(ch);
+                }
+                dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex] = new ItemCellSudoku() { Item = k, Can = can };
             }
         }
 
@@ -123,7 +134,14 @@ namespace SudokuDecision
                         {
                             k = temp[j][0];
                         }
-                        dataRow[j] = new ItemCellSudoku() { Item = k };
+                        //TODO: это объединить
+                        List<char> can = new List<char>();
+                        for (char ch = '1'; ch <= '9'; ch++)
+                        {
+                            can.Add(ch);
+                        }
+                        
+                        dataRow[j] = new ItemCellSudoku() { Item = k, Can = can };
                     }
                 }
                 dataTableSudoku.Rows.Add(dataRow);

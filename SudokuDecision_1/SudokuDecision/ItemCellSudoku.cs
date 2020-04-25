@@ -13,7 +13,16 @@ namespace SudokuDecision
 
         public override string ToString()
         {
-            return $"_{Item}";
+            string res = "";
+            if (Can!=null )
+            {
+                foreach (var item in Can)
+                {
+                    res += $"{item},";
+                }
+            }
+            
+            return $"_{Item} [{res}]";
         }
     }
 
