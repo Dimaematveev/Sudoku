@@ -11,28 +11,41 @@ namespace SudokuDecision
         /// <summary> кол-во различных знаков </summary>
         static public int kolNum = 9;
         public char Item;
-        public List<char> Can;
+        private List<char> Can;
         public List<ListItemSudoku> ListItemSudokus;
         public ItemCellSudoku(char item)
         {
             Item = item;
+            ListItemSudokus = new List<ListItemSudoku>();
+            
+            AllChar();
+            NewCan();
+        }
+
+        private void AllChar()
+        {
+            Can = new List<char>();
             if (Item == ' ')
             {
-                Can = new List<char>();
-                for (char ch = '1'; ch < '1'+ kolNum; ch++)
+                for (char ch = '1'; ch < '1' + kolNum; ch++)
                 {
                     Can.Add(ch);
                 }
             }
         }
 
-        public ItemCellSudoku(char item, List<char> can) : this(item)
+        public void ResetItem(char ch)
         {
-            if (Item == ' ')
-            {
-                Can = can;
-            }
+            Item = ch;
+            NewCan();
 
+            foreach (var item1 in ListItemSudokus)
+            {
+                foreach (var item2 in item1.ItemSudokus)
+                {
+                    item2.ItemCellSudoku.NewCan();
+                }
+            }
         }
 
         /// <summary>
@@ -42,9 +55,10 @@ namespace SudokuDecision
         {
             if (Item != ' ') 
             {
+                Can = new List<char>();
                 return;
             }
-
+            AllChar();
             foreach (var item1 in ListItemSudokus)
             {
                 foreach (var item2 in item1.ItemSudokus)

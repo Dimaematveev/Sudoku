@@ -52,19 +52,7 @@ namespace SudokuDecision
         private void NewTable()
         {
             int numSudoku = 9;
-            for (int i = 0; i < numSudoku; i++)
-            {
-                ListItemSudoku listItemSudokuRowColumn = new ListItemSudoku();
-                ListItemSudoku listItemSudokuColumnRow = new ListItemSudoku();
-
-                for (int j = 0; j < numSudoku; j++)
-                {
-                    listItemSudokuRowColumn.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, i, j));
-                    listItemSudokuColumnRow.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, j, i));
-                }
-                ListItemSudokus.Add(listItemSudokuRowColumn);
-                ListItemSudokus.Add(listItemSudokuColumnRow);
-            }
+            
 
             for (int i = 0; i < numSudoku; i++)
             {
@@ -76,15 +64,40 @@ namespace SudokuDecision
                 for (int j = 0; j < numSudoku; j++)
                 {
                     //TODO: это объединить
-                    var z = ListItemSudokus.Where(x => x.FindRowColumn(i, j)).ToList();
-                    newRow[j] = new ItemCellSudoku(' ') { ListItemSudokus = z };
+                    //var z = ListItemSudokus.Where(x => x.FindRowColumn(i, j)).ToList();
+                    newRow[j] = new ItemCellSudoku(' ');
                     //newRow[j] = $"{i}_{j}";
                 }
                 dataTableSudoku.Rows.Add(newRow);
             }
-            var xx = dataTableSudoku.Select();
 
+            for (int i = 0; i < numSudoku; i++)
+            {
+                ListItemSudoku listItemSudokuRowColumn = new ListItemSudoku();
+                ListItemSudoku listItemSudokuColumnRow = new ListItemSudoku();
 
+                for (int j = 0; j < numSudoku; j++)
+                {
+                    listItemSudokuRowColumn.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, i, j));
+                    listItemSudokuColumnRow.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, j, i));
+                    
+                }
+                ListItemSudokus.Add(listItemSudokuRowColumn);
+                ListItemSudokus.Add(listItemSudokuColumnRow);
+            }
+
+            for (int i = 0; i < numSudoku; i++)
+            {
+               
+                for (int j = 0; j < numSudoku; j++)
+                {
+                    var z = ListItemSudokus.Where(x => x.FindRowColumn(i, j)).ToList();
+                    ((ItemCellSudoku)dataTableSudoku.Rows[i][j]).ListItemSudokus = z;
+                }
+               
+            }
+
+            
 
 
 
@@ -105,11 +118,12 @@ namespace SudokuDecision
         private void DataGridSudoku_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             TextBox cell = (TextBox)e.EditingElement;
+            
             if (cell.Text.Length > 1)
             {
                 throw new ArgumentException("Не символ");
             }
-            else
+            else if (!(e.EditAction == DataGridEditAction.Cancel))
             {
                 char k;
                 if (cell.Text.Length == 0)
@@ -121,16 +135,13 @@ namespace SudokuDecision
                     k = cell.Text[0];
                 }
                 //TODO: это объединить
-                var z = ListItemSudokus.Where(x => x.FindRowColumn(e.Row.GetIndex(), e.Column.DisplayIndex)).ToList();
+                ((ItemCellSudoku)dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex]).ResetItem(k);
+                DataGridSudoku.UpdateLayout();
+                DataGridSudoku.CancelEdit();
+            }
+            else
+            {
                 
-                dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex] = new ItemCellSudoku(k) { ListItemSudokus = z };
-                foreach (var item1 in z)
-                {
-                    foreach (var item2 in item1.ItemSudokus)
-                    {
-                        item2.ItemCellSudoku.NewCan();
-                    }
-                }
             }
         }
 
@@ -147,7 +158,7 @@ namespace SudokuDecision
          /// <param name="sourseFile">путь к файлу</param>
         private void FillFile(string sourseFile)
         {
-            dataTableSudoku.Clear();
+           
             string line;
             StreamReader file = new StreamReader(sourseFile);
             int lineNumber = 0;
@@ -173,12 +184,13 @@ namespace SudokuDecision
                             k = temp[j][0];
                         }
                         //TODO: это объединить
-                        var z = ListItemSudokus.Where(x => x.FindRowColumn(lineNumber, j)).ToList();
-                        dataRow[j] = new ItemCellSudoku(k) { ListItemSudokus = z };
+                        //var z = ListItemSudokus.Where(x => x.FindRowColumn(lineNumber, j)).ToList();
+                        ((ItemCellSudoku)dataTableSudoku.Rows[lineNumber][j]).ResetItem(k);
+                       
                     }
-                    lineNumber++;
+                   
                 }
-                dataTableSudoku.Rows.Add(dataRow);
+                lineNumber++;
             }
         }
 
