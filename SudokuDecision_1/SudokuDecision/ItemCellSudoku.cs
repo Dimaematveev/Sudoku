@@ -13,6 +13,7 @@ namespace SudokuDecision
         public char Item;
         private List<char> Can;
         public List<ListItemSudoku> ListItemSudokus;
+       
         public ItemCellSudoku(char item)
         {
             Item = item;
@@ -104,7 +105,31 @@ namespace SudokuDecision
             }
 
             // TODO:что нужно еще  что если n с n-мя одинаковыми наборами то удалить эти наборы из других
-           
+            foreach (var item1 in ListItemSudokus)
+            {
+                var l = new string( ListItemSudokus[0].ItemSudokus[0].ItemCellSudoku.Can.ToArray());
+                var unionsCan = item1.ItemSudokus.GroupBy(x => new string(x.ItemCellSudoku.Can.ToArray())).ToList();
+                for (int i = 0; i < unionsCan.Count; i++)
+                {
+                    if (unionsCan[i].Count() == unionsCan[i].Key.Length)
+                    {
+                        var k = unionsCan[i].ToList().First().ItemCellSudoku.Can;
+                        for (int j = 0; j < unionsCan.Count; j++)
+                        {
+                            if (i==j)
+                            {
+                                continue;
+                            }
+                            foreach (var item in unionsCan[j])
+                            {
+                                item.ItemCellSudoku.Can.RemoveAll(x => k.Contains(x));
+                            }
+                            
+
+                        }
+                    }
+                }
+            }
         }
         public override string ToString()
         {
