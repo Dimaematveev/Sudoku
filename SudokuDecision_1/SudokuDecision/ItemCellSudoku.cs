@@ -59,6 +59,7 @@ namespace SudokuDecision
                 return;
             }
             AllChar();
+            //Если в 9 клетках только 1 возможное заполнение конкретного числа
             foreach (var item1 in ListItemSudokus)
             {
                 foreach (var item2 in item1.ItemSudokus)
@@ -72,8 +73,38 @@ namespace SudokuDecision
                 ResetItem(Can[0]);
             }
 
-            //TODO: Если в 9 клетках только 1 возможное заполнение конкретного числа
+            //Если в 9 клетках только 1 возможное заполнение конкретного числа
 
+            foreach (var item1 in ListItemSudokus)
+            {
+                Dictionary<char, int> CharNumber = new Dictionary<char, int>();
+                foreach (var ch in Can)
+                {
+                    CharNumber.Add(ch, 0);
+                }
+                foreach (var item2 in item1.ItemSudokus)
+                {
+                    foreach (var item3 in item2.ItemCellSudoku.Can)
+                    {
+                        if (CharNumber.ContainsKey(item3))
+                        {
+                            int k=CharNumber[item3];
+                            CharNumber[item3] = ++k;
+                        }
+                           
+                    }
+                }
+                foreach (var item in CharNumber)
+                {
+                    if (item.Value==1)
+                    {
+                        ResetItem(item.Key);
+                    }
+                }
+            }
+
+            // TODO:что нужно еще 
+           
         }
         public override string ToString()
         {

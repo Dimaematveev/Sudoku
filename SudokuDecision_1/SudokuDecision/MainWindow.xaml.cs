@@ -32,6 +32,7 @@ namespace SudokuDecision
             Loaded += MainWindow_Loaded;
             DataGridSudoku.CellEditEnding += (sender, e) => { ResetTableSudoku(DataGridSudoku_CellEditEnding(e)); };
             ButtonOpenFile.Click += (sender, e) => { OpenFile_Click(); };
+            ButtonProv.Click += (sender, e) => { Prov_Click(); };
         }
 
        /// <summary>
@@ -143,9 +144,6 @@ namespace SudokuDecision
                 }
                 //TODO: это объединить
                 editCellSudoku = new EditCellSudoku(e.Row.GetIndex(), e.Column.DisplayIndex, k);
-                //((ItemCellSudoku)dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex]).ResetItem(k);
-               // DataGridSudoku.ItemsSource = dataTableSudoku.DefaultView;
-               // DataGridSudoku.CancelEdit();
             }
             else
             {
@@ -165,12 +163,7 @@ namespace SudokuDecision
             DataGridSudoku.EndInit();
         }
 
-        /* TODO: что надо примерно сделать
-         * Первое создать список всех возможных объединений где не должны совпадать элементы
-         * Второе после проверить на одинаковое кол-во чисел
-         *
-         *
-         */
+       
          /// <summary>
          /// чтение из файла
          /// </summary>
@@ -211,9 +204,31 @@ namespace SudokuDecision
                 lineNumber++;
             }
         }
+        private void Prov_Click()
+        {
+            foreach (var listItemSudoku in ListItemSudokus)
+            {
+                Dictionary<char, int> SimbolNumber = new Dictionary<char, int>();
+                
+                foreach (var itemSudoku in listItemSudoku.ItemSudokus)
+                {
+                    char simbol = itemSudoku.ItemCellSudoku.Item;
+                    if (SimbolNumber.ContainsKey(simbol))
+                    {
+                        int number = SimbolNumber[simbol];
+                        SimbolNumber[simbol] = ++number;
+                        MessageBox.Show($"К сожалению проблема в [{itemSudoku.Row},{itemSudoku.Column}] несколько одинаковых значений!");
+                    }
+                    else
+                    {
+                        SimbolNumber.Add(simbol, 1);
+                    }
+                }
+                
+            }
+        }
 
-
-        private void OpenFile_Click()
+            private void OpenFile_Click()
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "All files(*.*)|*.*";

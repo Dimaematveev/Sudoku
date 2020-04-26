@@ -9,6 +9,7 @@
     <Grid>
         <DataGrid x:Name="DataGridSudoku"   Margin="10,10,10,40"/>
         <Button x:Name="ButtonOpenFile" Content="Открыть файл"  Margin="10,0,0,5.4" HorizontalAlignment="Left" Width="90" Height="30" VerticalAlignment="Bottom"/>
+        <Button x:Name="ButtonProv" Content="Проверка"  Margin="105,0,0,5.4" HorizontalAlignment="Left" Width="90" Height="30" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Window>
