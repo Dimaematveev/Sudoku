@@ -15,6 +15,50 @@ namespace SudokuDecision
             ItemSudokus = new List<ItemSudoku>();
         }
 
+        public override bool Equals(object obj)
+        {
+
+            if (obj is ListItemSudoku)
+            {
+                ListItemSudoku listItemSudoku = (ListItemSudoku)obj;
+                if (ItemSudokus.Count!= listItemSudoku.ItemSudokus.Count)
+                {
+                    return false;
+                }
+                foreach (var itemSudoku in ItemSudokus)
+                {
+                    if(!listItemSudoku.ItemSudokus.Contains(itemSudoku))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public bool Contains(object obj)
+        {
+
+            if (obj is ListItemSudoku)
+            {
+                ListItemSudoku listItemSudoku = (ListItemSudoku)obj;
+                if (ItemSudokus.Count < listItemSudoku.ItemSudokus.Count)
+                {
+                    return false;
+                }
+                foreach (var itemSudoku in listItemSudoku.ItemSudokus)
+                {
+                    if (!ItemSudokus.Contains(itemSudoku))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
         public bool FindRowColumn(int row,int column)
         {
             int ind = ItemSudokus.FindIndex(x => x.Row == row && x.Column == column);

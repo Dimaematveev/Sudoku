@@ -65,9 +65,7 @@ namespace SudokuDecision
                 for (int j = 0; j < numSudoku; j++)
                 {
                     //TODO: это объединить
-                    //var z = ListItemSudokus.Where(x => x.FindRowColumn(i, j)).ToList();
                     newRow[j] = new ItemCellSudoku(' ');
-                    //newRow[j] = $"{i}_{j}";
                 }
                 dataTableSudoku.Rows.Add(newRow);
             }
@@ -127,12 +125,14 @@ namespace SudokuDecision
         {
             TextBox cell = (TextBox)e.EditingElement;
             EditCellSudoku editCellSudoku = null;
-            if (cell.Text.Length > 1)
+           
+            if (!(e.EditAction == DataGridEditAction.Cancel))
             {
-                throw new ArgumentException("Не символ");
-            }
-            else if (!(e.EditAction == DataGridEditAction.Cancel))
-            {
+                if (cell.Text.Length > 1)
+                {
+                    MessageBox.Show("Не символ");
+                    return editCellSudoku;
+                }
                 char k;
                 if (cell.Text.Length == 0)
                 {
@@ -145,10 +145,6 @@ namespace SudokuDecision
                 //TODO: это объединить
                 editCellSudoku = new EditCellSudoku(e.Row.GetIndex(), e.Column.DisplayIndex, k);
             }
-            else
-            {
-                
-            }
             return editCellSudoku;
         }
 
@@ -159,7 +155,62 @@ namespace SudokuDecision
         public void ResetTableSudoku(EditCellSudoku editCellSudoku)
         {
             DataGridSudoku.BeginInit();
-            ((ItemCellSudoku)dataTableSudoku.Rows[editCellSudoku.Row][editCellSudoku.Column]).ResetItem(editCellSudoku.Simbol);
+            if (editCellSudoku != null) 
+            {
+                ((ItemCellSudoku)dataTableSudoku.Rows[editCellSudoku.Row][editCellSudoku.Column]).ResetItem(editCellSudoku.Simbol);
+
+                for (int row=0; row < dataTableSudoku.Rows.Count; row++)
+                {
+                    for (int column = 0; column < dataTableSudoku.Columns.Count; column++)
+                    {
+                        var item = ((ItemCellSudoku)dataTableSudoku.Rows[row][column]);
+                    }
+                }
+
+                List<char> AllSimbols = new List<char>();
+                for (char ch = '1'; ch < '1' + 9; ch++)
+                {
+                    AllSimbols.Add(ch);
+                }
+
+                foreach (var listItemSudoku in ListItemSudokus)
+                {
+                    foreach (var simbol in AllSimbols)
+                    {
+                        ListItemSudoku listItemSudokus = new ListItemSudoku();
+                        List<ItemSudoku> itemSudokus = new List<ItemSudoku>();
+                        foreach (var itemSudoku in listItemSudoku.ItemSudokus)
+                        {
+                            var item = itemSudoku;
+                            if (item.ItemCellSudoku.Can.Contains(simbol))
+                            {
+                                itemSudokus.Add(item);
+                            }
+                           
+                        }
+                       
+                        listItemSudokus.ItemSudokus = itemSudokus;
+                        var k = ListItemSudokus.Where(x => x.Contains(listItemSudokus)).ToList();
+                        
+                        if (itemSudokus != null && k.Count > 1 && itemSudokus.Count > 0 ) 
+                        {
+                            //Которые надо изменить
+                            var kk = k.Select(x => x.ItemSudokus.Where(y => !itemSudokus.Contains(y)).ToList()).ToList();
+                            foreach (var item1 in kk)
+                            {
+                                foreach (var item2 in item1)
+                                {
+                                    item2.ItemCellSudoku.Can.Remove(simbol);
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+           
             DataGridSudoku.EndInit();
         }
 
@@ -170,7 +221,7 @@ namespace SudokuDecision
          /// <param name="sourseFile">путь к файлу</param>
         private void FillFile(string sourseFile)
         {
-           
+            
             string line;
             StreamReader file = new StreamReader(sourseFile);
             int lineNumber = 0;
@@ -196,8 +247,9 @@ namespace SudokuDecision
                             k = temp[j][0];
                         }
                         //TODO: это объединить
-                        //var z = ListItemSudokus.Where(x => x.FindRowColumn(lineNumber, j)).ToList();
-                        ((ItemCellSudoku)dataTableSudoku.Rows[lineNumber][j]).ResetItem(k);
+                        var editCellSudoku = new EditCellSudoku(lineNumber, j, k);
+                        ResetTableSudoku(editCellSudoku);
+                        //((ItemCellSudoku)dataTableSudoku.Rows[lineNumber][j]).ResetItem(k);
                     }
                    
                 }
@@ -218,6 +270,7 @@ namespace SudokuDecision
                         int number = SimbolNumber[simbol];
                         SimbolNumber[simbol] = ++number;
                         MessageBox.Show($"К сожалению проблема в [{itemSudoku.Row},{itemSudoku.Column}] несколько одинаковых значений!");
+                        return;
                     }
                     else
                     {
@@ -237,7 +290,6 @@ namespace SudokuDecision
         }
     }
 
-    ///TODO:Можно создать список объединений а потом его добавлять в каждый ITEM
     public class EditCellSudoku
     {
         public int Row;

@@ -20,5 +20,14 @@ namespace SudokuDecision
             Row = row;
             Column = column;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ItemSudoku)
+            {
+                return ((ItemSudoku)obj).Row.Equals(Row) && ((ItemSudoku)obj).Column.Equals(Column);
+            }
+            return false;
+        }
     }
 }

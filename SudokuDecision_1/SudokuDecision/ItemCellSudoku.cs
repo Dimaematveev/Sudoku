@@ -11,7 +11,7 @@ namespace SudokuDecision
         /// <summary> кол-во различных знаков </summary>
         static public int kolNum = 9;
         public char Item;
-        private List<char> Can;
+        public List<char> Can;
         public List<ListItemSudoku> ListItemSudokus;
        
         public ItemCellSudoku(char item)
@@ -130,6 +130,9 @@ namespace SudokuDecision
                     }
                 }
             }
+
+            // TODO:Как-бы объяснить если какой-то символ может быть только в Таблице на одной строке в других местах он быть не может. Сделал пока в основном
+            
         }
         public override string ToString()
         {
