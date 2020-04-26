@@ -24,6 +24,7 @@ namespace SudokuDecision
     public partial class MainWindow : Window
     {
         DataTable dataTableSudoku = new DataTable("Sudoku");
+        List<ListItemSudoku> ListItemSudokus = new List<ListItemSudoku>();
         public MainWindow()
         {
             InitializeComponent();
@@ -53,20 +54,40 @@ namespace SudokuDecision
             int numSudoku = 9;
             for (int i = 0; i < numSudoku; i++)
             {
+                ListItemSudoku listItemSudokuRowColumn = new ListItemSudoku();
+                ListItemSudoku listItemSudokuColumnRow = new ListItemSudoku();
+
+                for (int j = 0; j < numSudoku; j++)
+                {
+                    listItemSudokuRowColumn.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, i, j));
+                    listItemSudokuColumnRow.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, j, i));
+                }
+                ListItemSudokus.Add(listItemSudokuRowColumn);
+                ListItemSudokus.Add(listItemSudokuColumnRow);
+            }
+
+            for (int i = 0; i < numSudoku; i++)
+            {
                 dataTableSudoku.Columns.Add($"{i}", typeof(object));
             }
-            for (int i = 1; i < numSudoku; i++)
+            for (int i = 0; i < numSudoku; i++)
             {
                 var newRow = dataTableSudoku.NewRow();
-                for (int j = 0; j < newRow.ItemArray.Length; j++)
+                for (int j = 0; j < numSudoku; j++)
                 {
                     //TODO: это объединить
-
-                    newRow[j] = new ItemCellSudoku(' ');
+                    var z = ListItemSudokus.Where(x => x.FindRowColumn(i, j)).ToList();
+                    newRow[j] = new ItemCellSudoku(' ') { ListItemSudokus = z };
                     //newRow[j] = $"{i}_{j}";
                 }
                 dataTableSudoku.Rows.Add(newRow);
             }
+            var xx = dataTableSudoku.Select();
+
+
+
+
+
             DataGridSudoku.ItemsSource = dataTableSudoku.DefaultView;
             DataGridSudoku.CanUserAddRows = false;
             DataGridSudoku.CanUserResizeColumns = false;
@@ -100,8 +121,16 @@ namespace SudokuDecision
                     k = cell.Text[0];
                 }
                 //TODO: это объединить
-
-                dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex] = new ItemCellSudoku(k);
+                var z = ListItemSudokus.Where(x => x.FindRowColumn(e.Row.GetIndex(), e.Column.DisplayIndex)).ToList();
+                
+                dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex] = new ItemCellSudoku(k) { ListItemSudokus = z };
+                foreach (var item1 in z)
+                {
+                    foreach (var item2 in item1.ItemSudokus)
+                    {
+                        item2.ItemCellSudoku.NewCan();
+                    }
+                }
             }
         }
 
@@ -121,6 +150,7 @@ namespace SudokuDecision
             dataTableSudoku.Clear();
             string line;
             StreamReader file = new StreamReader(sourseFile);
+            int lineNumber = 0;
             while ((line = file.ReadLine()) != null)
             {
                 var temp = line.Split(';');
@@ -143,8 +173,10 @@ namespace SudokuDecision
                             k = temp[j][0];
                         }
                         //TODO: это объединить
-                        dataRow[j] = new ItemCellSudoku(k);
+                        var z = ListItemSudokus.Where(x => x.FindRowColumn(lineNumber, j)).ToList();
+                        dataRow[j] = new ItemCellSudoku(k) { ListItemSudokus = z };
                     }
+                    lineNumber++;
                 }
                 dataTableSudoku.Rows.Add(dataRow);
             }
