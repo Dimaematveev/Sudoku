@@ -67,6 +67,13 @@ namespace SudokuDecision
                     Can.RemoveAll(x => x == temp);
                 }
             }
+            if (Can.Count==1)
+            {
+                ResetItem(Can[0]);
+            }
+
+            //TODO: Если в 9 клетках только 1 возможное заполнение конкретного числа
+
         }
         public override string ToString()
         {

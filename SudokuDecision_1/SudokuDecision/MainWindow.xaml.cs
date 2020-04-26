@@ -30,7 +30,7 @@ namespace SudokuDecision
             InitializeComponent();
             
             Loaded += MainWindow_Loaded;
-            DataGridSudoku.CellEditEnding += DataGridSudoku_CellEditEnding;
+            DataGridSudoku.CellEditEnding += (sender, e) => { ResetTableSudoku(DataGridSudoku_CellEditEnding(e)); };
             ButtonOpenFile.Click += (sender, e) => { OpenFile_Click(); };
         }
 
@@ -73,17 +73,25 @@ namespace SudokuDecision
 
             for (int i = 0; i < numSudoku; i++)
             {
-                ListItemSudoku listItemSudokuRowColumn = new ListItemSudoku();
-                ListItemSudoku listItemSudokuColumnRow = new ListItemSudoku();
+                ListItemSudoku listItemSudokuRow = new ListItemSudoku();
+                ListItemSudoku listItemSudokuColumn = new ListItemSudoku();
+                ListItemSudoku listItemTable= new ListItemSudoku();
 
                 for (int j = 0; j < numSudoku; j++)
                 {
-                    listItemSudokuRowColumn.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, i, j));
-                    listItemSudokuColumnRow.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, j, i));
-                    
+                    int row = i;
+                    int col = j;
+                    listItemSudokuRow.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, row, col));
+                    row = j;
+                    col = i;
+                    listItemSudokuColumn.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, row, col));
+                    col = (i / 3) * 3 + j / 3;
+                    row = (i % 3) * 3 + j % 3;
+                    listItemTable.ItemSudokus.Add(new ItemSudoku(dataTableSudoku, col, row));
                 }
-                ListItemSudokus.Add(listItemSudokuRowColumn);
-                ListItemSudokus.Add(listItemSudokuColumnRow);
+                ListItemSudokus.Add(listItemSudokuRow);
+                ListItemSudokus.Add(listItemSudokuColumn);
+                ListItemSudokus.Add(listItemTable);
             }
 
             for (int i = 0; i < numSudoku; i++)
@@ -113,12 +121,11 @@ namespace SudokuDecision
         /// <summary>
         /// Изменение ячейки в таблице
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DataGridSudoku_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        private EditCellSudoku DataGridSudoku_CellEditEnding(DataGridCellEditEndingEventArgs e)
         {
             TextBox cell = (TextBox)e.EditingElement;
-            
+            EditCellSudoku editCellSudoku = null;
             if (cell.Text.Length > 1)
             {
                 throw new ArgumentException("Не символ");
@@ -135,16 +142,28 @@ namespace SudokuDecision
                     k = cell.Text[0];
                 }
                 //TODO: это объединить
-                ((ItemCellSudoku)dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex]).ResetItem(k);
-                DataGridSudoku.UpdateLayout();
-                DataGridSudoku.CancelEdit();
+                editCellSudoku = new EditCellSudoku(e.Row.GetIndex(), e.Column.DisplayIndex, k);
+                //((ItemCellSudoku)dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex]).ResetItem(k);
+               // DataGridSudoku.ItemsSource = dataTableSudoku.DefaultView;
+               // DataGridSudoku.CancelEdit();
             }
             else
             {
                 
             }
+            return editCellSudoku;
         }
 
+        /// <summary>
+        /// Изменение таблицы судоку по данным
+        /// </summary>
+        /// <param name="editCellSudoku"></param>
+        public void ResetTableSudoku(EditCellSudoku editCellSudoku)
+        {
+            DataGridSudoku.BeginInit();
+            ((ItemCellSudoku)dataTableSudoku.Rows[editCellSudoku.Row][editCellSudoku.Column]).ResetItem(editCellSudoku.Simbol);
+            DataGridSudoku.EndInit();
+        }
 
         /* TODO: что надо примерно сделать
          * Первое создать список всех возможных объединений где не должны совпадать элементы
@@ -186,7 +205,6 @@ namespace SudokuDecision
                         //TODO: это объединить
                         //var z = ListItemSudokus.Where(x => x.FindRowColumn(lineNumber, j)).ToList();
                         ((ItemCellSudoku)dataTableSudoku.Rows[lineNumber][j]).ResetItem(k);
-                       
                     }
                    
                 }
@@ -205,4 +223,18 @@ namespace SudokuDecision
     }
 
     ///TODO:Можно создать список объединений а потом его добавлять в каждый ITEM
+    public class EditCellSudoku
+    {
+        public int Row;
+        public int Column;
+        public char Simbol;
+
+        public EditCellSudoku(int row, int column, char simbol)
+        {
+            
+            Row = row;
+            Column = column;
+            Simbol = simbol;
+        }
+    }
 }
