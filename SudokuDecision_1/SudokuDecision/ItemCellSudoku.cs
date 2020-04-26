@@ -73,7 +73,7 @@ namespace SudokuDecision
                 ResetItem(Can[0]);
             }
 
-            //Если в 9 клетках только 1 возможное заполнение конкретного числа
+            //Если в 9 клетках только 1 раз встречается число
 
             foreach (var item1 in ListItemSudokus)
             {
@@ -103,7 +103,7 @@ namespace SudokuDecision
                 }
             }
 
-            // TODO:что нужно еще 
+            // TODO:что нужно еще  что если n с n-мя одинаковыми наборами то удалить эти наборы из других
            
         }
         public override string ToString()
