@@ -33,7 +33,11 @@ namespace SudokuDecision
             ButtonOpenFile.Click += (sender, e) => { OpenFile_Click(); };
         }
 
-       
+       /// <summary>
+       /// Первоначальная загрузка
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             NewTable();
@@ -41,6 +45,9 @@ namespace SudokuDecision
 
         }
 
+        /// <summary>
+        /// Первоначальное создание таблицы
+        /// </summary>
         private void NewTable()
         {
             int numSudoku = 9;
@@ -54,12 +61,8 @@ namespace SudokuDecision
                 for (int j = 0; j < newRow.ItemArray.Length; j++)
                 {
                     //TODO: это объединить
-                    List<char> can = new List<char>();
-                    for (char ch = '1'; ch <= '9'; ch++)
-                    {
-                        can.Add(ch);
-                    }
-                    newRow[j] = new ItemCellSudoku() { Item = ' ', Can=can };
+
+                    newRow[j] = new ItemCellSudoku(' ');
                     //newRow[j] = $"{i}_{j}";
                 }
                 dataTableSudoku.Rows.Add(newRow);
@@ -73,6 +76,11 @@ namespace SudokuDecision
             DataGridSudoku.CanUserSortColumns = false;
         }
 
+        /// <summary>
+        /// Изменение ячейки в таблице
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataGridSudoku_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             TextBox cell = (TextBox)e.EditingElement;
@@ -92,12 +100,8 @@ namespace SudokuDecision
                     k = cell.Text[0];
                 }
                 //TODO: это объединить
-                List<char> can = new List<char>();
-                for (char ch = '1'; ch <= '9'; ch++)
-                {
-                    can.Add(ch);
-                }
-                dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex] = new ItemCellSudoku() { Item = k, Can = can };
+
+                dataTableSudoku.Rows[e.Row.GetIndex()][e.Column.DisplayIndex] = new ItemCellSudoku(k);
             }
         }
 
@@ -108,11 +112,15 @@ namespace SudokuDecision
          *
          *
          */
-        private void FillFile(string nameFile)
+         /// <summary>
+         /// чтение из файла
+         /// </summary>
+         /// <param name="sourseFile">путь к файлу</param>
+        private void FillFile(string sourseFile)
         {
             dataTableSudoku.Clear();
             string line;
-            StreamReader file = new StreamReader(nameFile);
+            StreamReader file = new StreamReader(sourseFile);
             while ((line = file.ReadLine()) != null)
             {
                 var temp = line.Split(';');
@@ -135,13 +143,7 @@ namespace SudokuDecision
                             k = temp[j][0];
                         }
                         //TODO: это объединить
-                        List<char> can = new List<char>();
-                        for (char ch = '1'; ch <= '9'; ch++)
-                        {
-                            can.Add(ch);
-                        }
-                        
-                        dataRow[j] = new ItemCellSudoku() { Item = k, Can = can };
+                        dataRow[j] = new ItemCellSudoku(k);
                     }
                 }
                 dataTableSudoku.Rows.Add(dataRow);
@@ -158,5 +160,5 @@ namespace SudokuDecision
         }
     }
 
-    
+    ///TODO:Можно создать список объединений а потом его добавлять в каждый ITEM
 }
